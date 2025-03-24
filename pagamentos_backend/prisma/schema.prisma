@@ -27,7 +27,7 @@ model users {
 model balances {
   id              String     @id @default(uuid()) @db.Uuid
   name            String
-  description     String
+  description     String?
   initial_value   Float
   remaining_value Float
   created_at      DateTime   @default(now())
@@ -40,7 +40,7 @@ model balances {
 model payments {
   id          String    @id @default(uuid()) @db.Uuid
   name        String
-  description String
+  description String?
   value       Float
   created_at  DateTime  @default(now())
   updated_at  DateTime  @updatedAt
