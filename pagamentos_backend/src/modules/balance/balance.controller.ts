@@ -4,7 +4,9 @@ import { CreateBalanceDto } from './dto/create-balance.dto';
 import { UpdateBalanceDto } from './dto/update-balance.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { FindBalanceDto } from './dto/find-balance.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller('balance')
 export class BalanceController {
   constructor(private readonly balanceService: BalanceService) { }
