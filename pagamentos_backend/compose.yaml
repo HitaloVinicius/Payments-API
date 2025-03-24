@@ -2,7 +2,7 @@ services:
 
   postgres:
     image: postgres
-    restart: always
+    restart: no
     container_name: postgres
     shm_size: 128mb
     environment:
@@ -13,13 +13,35 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-  adminer:
-    image: adminer
-    restart: always
-    container_name: adminer
+  nestapp:
+    build: .
+    container_name: nestapp
+    restart: no
     ports:
-      - 8080:8080
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://admin:admin@postgres:5432/db?schema=public
+      DIRECT_URL: postgresql://admin:admin@postgres:5432/db?schema=public
+      JWT_SECRET: jns632hbsd7snhs
+
+  prisma-studio:
+    image: node:lts-alpine
+    container_name: prisma_studio
+    restart: no
+    working_dir: /app
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+      - nestapp
+    environment:
+      DATABASE_URL: postgresql://admin:admin@postgres:5432/db?schema=public
+      DIRECT_URL: postgresql://admin:admin@postgres:5432/db?schema=public
+    ports:
+      - "5555:5555"
+    command: [ "npx", "prisma", "studio" ]
 
 volumes:
   postgres_data:
