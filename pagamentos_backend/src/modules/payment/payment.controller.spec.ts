@@ -52,7 +52,7 @@ describe('PaymentController', () => {
   it('should call findOne service', async () => {
     const req = { user: { id: '6752b1b0-2464-47d4-a0d3-c399141e5943' } }
     const paymentId = '5585cb55-a94f-4bd3-aafe-7fe65f6869b7'
-    await paymentController.findOne(paymentId, req);
+    await paymentController.findOne({ id: paymentId }, req);
     expect(mockPaymentService.findOne).toHaveBeenCalledTimes(1);
     expect(mockPaymentService.findOne).toHaveBeenCalledWith(paymentId, req.user.id);
   });
@@ -64,7 +64,7 @@ describe('PaymentController', () => {
       name: 'payment 1',
       description: 'description 1'
     };
-    await paymentController.update(paymentId, paymentDto, req);
+    await paymentController.update({ id: paymentId }, paymentDto, req);
     expect(mockPaymentService.update).toHaveBeenCalledTimes(1);
     expect(mockPaymentService.update).toHaveBeenCalledWith(paymentId, paymentDto, req.user.id);
   });
@@ -72,7 +72,7 @@ describe('PaymentController', () => {
   it('should call remove service', async () => {
     const req = { user: { id: '6752b1b0-2464-47d4-a0d3-c399141e5943' } }
     const paymentId = '5585cb55-a94f-4bd3-aafe-7fe65f6869b7'
-    await paymentController.remove(paymentId, req);
+    await paymentController.remove({ id: paymentId }, req);
     expect(mockPaymentService.remove).toHaveBeenCalledTimes(1);
     expect(mockPaymentService.remove).toHaveBeenCalledWith(paymentId, req.user.id);
   });

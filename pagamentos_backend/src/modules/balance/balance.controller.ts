@@ -3,6 +3,7 @@ import { BalanceService } from './balance.service';
 import { CreateBalanceDto } from './dto/create-balance.dto';
 import { UpdateBalanceDto } from './dto/update-balance.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { FindBalanceDto } from './dto/find-balance.dto';
 
 @Controller('balance')
 export class BalanceController {
@@ -22,19 +23,19 @@ export class BalanceController {
 
   @UseGuards(AuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string, @Request() req) {
-    return this.balanceService.findOne(id, req.user.id);
+  findOne(@Param('id') params: FindBalanceDto, @Request() req) {
+    return this.balanceService.findOne(params.id, req.user.id);
   }
 
   @UseGuards(AuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBalanceDto: UpdateBalanceDto, @Request() req) {
-    return this.balanceService.update(id, updateBalanceDto, req.user.id);
+  update(@Param('id') params: FindBalanceDto, @Body() updateBalanceDto: UpdateBalanceDto, @Request() req) {
+    return this.balanceService.update(params.id, updateBalanceDto, req.user.id);
   }
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string, @Request() req) {
-    return this.balanceService.remove(id, req.user.id);
+  remove(@Param('id') params: FindBalanceDto, @Request() req) {
+    return this.balanceService.remove(params.id, req.user.id);
   }
 }

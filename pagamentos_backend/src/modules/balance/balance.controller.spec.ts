@@ -51,7 +51,7 @@ describe('BalanceController', () => {
   it('should call findOne service', async () => {
     const req = { user: { id: '6752b1b0-2464-47d4-a0d3-c399141e5943' } }
     const balanceId = 'a2197290-534d-43e1-8e8f-6d792db350ed'
-    await balanceController.findOne(balanceId, req);
+    await balanceController.findOne({ id: balanceId }, req);
     expect(mockBalanceService.findOne).toHaveBeenCalledTimes(1);
     expect(mockBalanceService.findOne).toHaveBeenCalledWith(balanceId, req.user.id);
   });
@@ -63,7 +63,7 @@ describe('BalanceController', () => {
       name: 'balance1',
       description: 'description1'
     };
-    await balanceController.update(balanceId, balanceDto, req);
+    await balanceController.update({ id: balanceId }, balanceDto, req);
     expect(mockBalanceService.update).toHaveBeenCalledTimes(1);
     expect(mockBalanceService.update).toHaveBeenCalledWith(balanceId, balanceDto, req.user.id);
   });
@@ -71,7 +71,7 @@ describe('BalanceController', () => {
   it('should call remove service', async () => {
     const req = { user: { id: '6752b1b0-2464-47d4-a0d3-c399141e5943' } }
     const balanceId = 'a2197290-534d-43e1-8e8f-6d792db350ed'
-    await balanceController.remove(balanceId, req);
+    await balanceController.remove({ id: balanceId }, req);
     expect(mockBalanceService.remove).toHaveBeenCalledTimes(1);
     expect(mockBalanceService.remove).toHaveBeenCalledWith(balanceId, req.user.id);
   });

@@ -3,6 +3,7 @@ import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { FindPaymentDto } from './dto/find-payment.dto';
 
 @Controller('payment')
 export class PaymentController {
@@ -22,19 +23,19 @@ export class PaymentController {
 
   @UseGuards(AuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string, @Request() req) {
-    return this.paymentService.findOne(id, req.user.id);
+  findOne(@Param('id') params: FindPaymentDto, @Request() req) {
+    return this.paymentService.findOne(params.id, req.user.id);
   }
 
   @UseGuards(AuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePaymentDto: UpdatePaymentDto, @Request() req) {
-    return this.paymentService.update(id, updatePaymentDto, req.user.id);
+  update(@Param('id') params: FindPaymentDto, @Body() updatePaymentDto: UpdatePaymentDto, @Request() req) {
+    return this.paymentService.update(params.id, updatePaymentDto, req.user.id);
   }
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string, @Request() req) {
-    return this.paymentService.remove(id, req.user.id);
+  remove(@Param('id') params: FindPaymentDto, @Request() req) {
+    return this.paymentService.remove(params.id, req.user.id);
   }
 }
