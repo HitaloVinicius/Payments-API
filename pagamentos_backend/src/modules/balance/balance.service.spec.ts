@@ -117,7 +117,10 @@ describe('BalanceService', () => {
       const result = await balanceService.findOne(
         'a2197290-534d-43e1-8e8f-6d792db350ed',
         '6752b1b0-2464-47d4-a0d3-c399141e5943')
-      expect(result).toEqual(mockDb.balances[0])
+      expect(result).toEqual({
+        consumed_value: mockDb.balances[0].initial_value - mockDb.balances[0].remaining_value,
+        ...mockDb.balances[0]
+      })
     })
   })
 

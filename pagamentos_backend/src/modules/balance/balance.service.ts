@@ -94,7 +94,10 @@ export class BalanceService {
       }
     })
     this.logger.log('findOne -- Success')
-    return balance
+    return {
+      consumed_value: Number(balance?.initial_value) - Number(balance?.remaining_value),
+      ...balance
+    }
   }
 
   async update(id: string, data: UpdateBalanceDto, userId: string) {
