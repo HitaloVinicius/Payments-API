@@ -77,7 +77,7 @@ Opcionalmente a dependência de directUrl pode ser removida do schema.prisma.
 ## Database
 Diagrama ER simplificado, ilustrando a estrutura do banco de dados e seus principais relacionamentos.
 
-![ERD](./docs/ERD.jpg)
+![ERD](./pagamentos_backend/docs/ERD.jpg)
 
 
 ## Cloud Run + Supabase
