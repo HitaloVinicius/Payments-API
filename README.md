@@ -1,39 +1,92 @@
-# 🚀 Venha participar do nosso time campeão!
+# Payments API
 
-Ao conhecer uma pessoa que está aplicando para a Incentive.me gostamos de ter uma conversa sobre código. Afinal, escrever, ler e discutir sobre código faz parte da nossa rotina diária de trabalho.
+## Descrição
+Este projeto é uma API desenvolvida com **NestJS**, projetada para gerenciar informações relacionadas a pagamentos e saldos de usuários. A API permite criar, atualizar e consultar saldos e pagamentos, além de fornecer autenticação via JWT. A aplicação está configurada para rodar em um ambiente **Docker**, com o banco de dados **PostgreSQL**.
 
-Você pode implementar o projeto usando qualquer linguagem de sua preferência. Lembre-se: use a linguagem com a qual você tem mais familiaridade.
+## Pré-requisitos
+Antes de executar a aplicação, é necessário ter as seguintes ferramentas instaladas:
+* Docker
+* Docker Compose
+* Node.js (para desenvolver e testar localmente)
 
-## O que vamos avaliar?
+## Configuração do Projeto
 
-- Comunicação na revisão do código;
-- Argumentos sobre desafios enfrentados e escolhas realizadas na implementação;
-- Código bem escrito, limpo e coeso;
-- Arquitetura e princípios de desenvolvimento;
-- Documentação (README.md) com instruções claras para reproduzir o projeto;
-- Uso adequado de versionamento do código em git;
-- Uso de testes automatizados;
-- Deploy da aplicação;
-- O design da API RESTful é implementado, usando corretamente os verbos HTTP e o código de status apropriado;
-- Uso adequado de HTML5, CSS3 e JavaScript em um front-end minimamente estruturado;
+### Passos para Executar o Projeto
+0. **Entre no diretório pagamentos_backend**
 
-Caso você não se sinta confortável com algum desses itens, tudo bem, apenas nos fale sobre isso, ok? O objetivo aqui não é te fazer perder tempo com algo irrelevante. Nosso objetivo aqui é ter um código sobre o qual podemos conversar. Como você deve ter notado, a gente preza muito por colaboração, trabalho em time e comunicação. O objetivo aqui é ter, minimamente, essa experiência com você.
+1. **Build e Start no Docker Compose**
 
-Respeite o seu nível de conhecimento e experiência, o importante é você saber dizer o motivo das suas escolhas. Se você tiver qualquer dúvida, por favor, entre em contato com a gente. Estamos disponíveis para te ajudar a finalizar esse processo.
+Para executar a aplicação e o banco de dados em containers Docker, execute o seguinte comando:
+```bash
+docker compose up --build
+```
+⚠️ ```A primeira instalação das dependências pode demorar um pouco```
 
-# Opções de projetos
 
-A seguir seguem algumas ideias de projetos que você pode implementar:
+2. **Verificando e usando a aplicação**
 
-- [Cliente para o GitHub](https://github.com/incentive-me/projeto-selecao/blob/master/projects/GITHUB.md);
-- [Sistema de pagamentos](https://github.com/incentive-me/projeto-selecao/blob/master/projects/PAGAMENTOS.md).
-- **Projeto open source próprio**: Se você tiver algum projeto pronto, que tenha relação com desenvolvimento Web, você pode apresentá-lo na entrevista. Conte-nos sobre suas motivações ao criá-lo, os desafios técnicos e não técnicos enfretados etc. O objetivo aqui é poupar seu tempo
-e evitar que você tenha que criar outro projeto, caso já tenha um.
+Depois de subir os containers, a API estará disponível em http://localhost:3000.
 
-# Como compartilhar o projeto conosco
+Para facilitar, as rotas podem ser acessadas e testadas através do endpoint http://localhost:3000/swagger.
 
-1. Apague este README.md e adicione informações que achar relevante como configurar o projeto, contendo os comandos que devem ser executados para executar ele e os testes;
-2. Abra um PR apontando para a branch master deste repositório;
-3. Escreva qualquer consideração na descrição do PR e faça qualquer comentário que achar pertinente no código.
+3. **Autenticação na API**
 
-**OBS.:** Caso queira nos mostra um projeto open source próprio, abra uma issue nesse repositório aqui, colocando links e informações sobre o seu projeto de forma que possamos avaliá-lo.
+- Envie uma requisição `POST` para a rota `/user` com o corpo da requisição contendo os dados do novo usuário:
+
+```JSON
+{
+  "name": "Novo Usuário",
+  "email": "novo.usuario@incentive.me",
+  "password": "senha-do-usuario"
+}
+```
+
+
+- Após criar o usuário, envie uma requisição `POST` para a rota `/auth/login` com o **email** e **password** do usuário criado. A resposta conterá o **token JWT**:
+```JSON
+  {
+    "accessToken": "seu-token-jwt"
+  }
+```
+
+4. **Adicionar o Token no Swagger**
+
+- No Swagger, clique em "Authorize" no canto superior direito.
+
+- Insira o token JWT obtido na etapa anterior no campo Bearer Token e clique em "Authorize".
+
+- Agora, você pode fazer requisições para as rotas protegidas da API com o token autenticado.
+
+
+5. **Prisma Studio**
+
+Se desejar visualizar a base de dados, o serviço do Prisma Studio pode ser acessado através de http://localhost:5555.
+
+
+### Como executar Testes
+Primeiro execute `npm install` na raiz do projeto, após isso execute `npm run test:cov`.
+
+
+### Configuração fora do ambiente Docker
+Para testar fora do ambiente do Docker um arquivo `.env` com as variáveis `JWT_SECRET`, `DATABASE_URL` e `DIRECT_URL` deve ser criado.
+
+Durante a execução local os valores `DATABASE_URL` e `DIRECT_URL` podem ser idênticos, porém, em outros ambientes (como por exemplo o Supabase) esses valores podem ser distintos.
+
+Opcionalmente a dependência de directUrl pode ser removida do schema.prisma.
+
+## Database
+Diagrama ER simplificado, ilustrando a estrutura do banco de dados e seus principais relacionamentos.
+
+![ERD](./docs/ERD.jpg)
+
+
+## Cloud Run + Supabase
+
+Esta aplicação está rodando no Google Cloud Run e utiliza Supabase como banco de dados.
+
+### Acesso a API em Cloud Run
+A aplicação pode ser acessada através de https://nestapp-incentiveme-334776019966.us-central1.run.app.
+
+Assim como sua versão local, a rota https://nestapp-incentiveme-334776019966.us-central1.run.app/swagger está disponivel para facilitar a utilização.
+
+⚠️ ```A primeira execução da aplicação pode ser um pouco mais lenta, pois o Cloud Run pode estar inicializando o ambiente de execução. Após a inicialização, as execuções subsequentes serão mais rápidas.```
